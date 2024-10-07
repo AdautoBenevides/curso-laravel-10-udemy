@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
     sistema_gestao:
         build:
@@ -10,7 +8,8 @@ services:
         volumes:
             - ./:/var/www
         networks:
-            - sistema-getao-network
+            - sistema-gestao-network  # Corrigido o nome da rede
+
     # nginx
     nginx:
         container_name: servidor-nginx
@@ -22,8 +21,9 @@ services:
             - ./:/var/www
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks:
-            - sistema-getao-network
-     # db mysql ${DB_DATABASE} //Busca do arquivo .env
+            - sistema-gestao-network  # Corrigido o nome da rede
+
+    # db mysql ${DB_DATABASE} //Busca do arquivo .env
     mysql:
         container_name: banco-mysql
         image: mysql:5.7.22
@@ -38,7 +38,7 @@ services:
         ports:
             - "3388:3306"
         networks:
-            - sistema-getao-network
+            - sistema-gestao-network  # Corrigido o nome da rede
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -51,18 +51,8 @@ services:
         ports:
             - 8899:80
         networks:
-            - sistema-getao-network
+            - sistema-gestao-network  # Corrigido o nome da rede
 
 networks:
-    sistema-getao-network:
+    sistema-gestao-network:  # Corrigido o nome da rede
         driver: bridge
-
-#Doc. de utilizacao
-# para acessar phpmyadmin no navegador: http://localhost:8899/ -  e a porta
-# para acessar nginx(servidor) no navegador: http://localhost:8989/ - e a porta
-
-#PHPMYADMIN info no file
-# servidor: mysql
-# user: root
-# pass: root
-
