@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use function Laravel\Prompts\search;
+
 class Produto extends Model
 {
     use HasFactory;
@@ -13,5 +15,15 @@ class Produto extends Model
         'nome',
         'valor',
     ];
-    
+
+    public function getProdutosPesquisarIndex(string $search = '')
+    {
+        $produto = $this->where(function ($query) use ($search) {
+            if ($search) {
+                $query->where('nome', $search);
+                $query->orWhere('nome', 'LIKE', "%{$search}%");
+            }
+        })->get();
+        return $produto;
+    }
 }
